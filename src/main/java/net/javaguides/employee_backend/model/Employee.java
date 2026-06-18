@@ -1,6 +1,7 @@
 package net.javaguides.employee_backend.model;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,12 +13,15 @@ public class Employee {
     private long id;
 
     @Column(name = "first_name")
+    @JsonProperty("first_name")
     private String firstName;
 
     @Column(name = "last_name")
+    @JsonProperty("last_name")
     private String lastName;
 
     @Column(name = "email_id")
+    @JsonProperty("email_id")
     private String emailId;
 
     public Employee(){
