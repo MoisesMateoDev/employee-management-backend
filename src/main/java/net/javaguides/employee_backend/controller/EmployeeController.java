@@ -1,7 +1,7 @@
 package net.javaguides.employee_backend.controller;
 
-import net.javaguides.employee_backend.model.Employee;
 
+import net.javaguides.employee_backend.model.dto.EmployeeDTO;
 import net.javaguides.employee_backend.service.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,12 +17,12 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
     @PostMapping
-    public Employee createEmployee(@RequestBody Employee employee) {
-        return employeeService.createEmployee(employee);
+    public EmployeeDTO createEmployee(@RequestBody EmployeeDTO employeeDTO) {
+        return employeeService.createEmployee(employeeDTO);
     }
 
     @GetMapping
-    public List<Employee> readEmployees() {
+    public List<EmployeeDTO> readEmployees() {
         return employeeService.readEmployees();
     }
 }
