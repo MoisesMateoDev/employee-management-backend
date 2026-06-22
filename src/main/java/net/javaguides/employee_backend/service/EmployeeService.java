@@ -1,11 +1,11 @@
 package net.javaguides.employee_backend.service;
 
-import net.javaguides.employee_backend.model.Employee;
+import net.javaguides.employee_backend.model.dto.EmployeeDTO;
 
 import java.util.List;
 
 public interface EmployeeService {
 
- Employee createEmployee(Employee employee);
- List<Employee> readEmployees();
+ EmployeeDTO createEmployee(EmployeeDTO employeeDTO);
+ List<EmployeeDTO> readEmployees();
 }
