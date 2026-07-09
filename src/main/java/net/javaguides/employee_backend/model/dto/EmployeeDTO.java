@@ -1,46 +1,30 @@
-package net.javaguides.employee_backend.model;
+package net.javaguides.employee_backend.model.dto;
 
+public class EmployeeDTO {
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "employees")
-public class Employee {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    @Column(name = "first_name")
-    @JsonProperty("first_name")
+    private Long id;
     private String firstName;
-
-    @Column(name = "last_name")
-    @JsonProperty("last_name")
     private String lastName;
-
-    @Column(name = "email_id")
-    @JsonProperty("email_id")
     private String emailId;
 
-    public Employee(){
-
+    public EmployeeDTO() {
     }
 
-    public Employee(long id, String firstName, String lastName, String emailId) {
-        super();
+    public EmployeeDTO(Long id,
+                       String firstName,
+                       String lastName,
+                       String emailId) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailId = emailId;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -66,5 +50,15 @@ public class Employee {
 
     public void setEmailId(String emailId) {
         this.emailId = emailId;
+    }
+
+    @Override
+    public String toString() {
+        return "EmployeeDTO{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", emailId='" + emailId + '\'' +
+                '}';
     }
 }
