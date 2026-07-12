@@ -38,4 +38,16 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeDTO);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<EmployeeDTO> updateEmployeeById(@PathVariable Long id, @RequestBody EmployeeDTO employeeDTO){
+        EmployeeDTO employeeDTOReturned = new EmployeeDTO();
+        if(employeeDTO != null){
+            employeeDTOReturned = employeeService.updateEmployeeById(id, employeeDTO);
+        }
+        if (employeeDTOReturned.getId() == null) {
+            throw new ResourceNotFoundException("Employee not exist with id :" + id);
+        }
+        return ResponseEntity.ok(employeeDTO);
+    }
+
 }
