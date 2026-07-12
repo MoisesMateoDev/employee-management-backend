@@ -45,4 +45,15 @@ public class EmployeeServiceImpl implements EmployeeService {
        }
         return employeeDTO;
     }
+
+    @Override
+    public EmployeeDTO updateEmployeeById(Long id, EmployeeDTO employeeDTO) {
+        Optional<Employee> employee = employeeRepository.findById(id);
+        if(employee.isPresent()){
+            Employee employeeToRepo = employeeMapper.toEntity(employeeDTO);
+            Employee employeeUpdated = employeeRepository.save(employeeToRepo);
+            employeeDTO = employeeMapper.toDto(employeeUpdated);
+        }
+        return employeeDTO;
+    }
 }
