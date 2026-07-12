@@ -1,5 +1,6 @@
 package net.javaguides.employee_backend.service;
 
+import net.javaguides.employee_backend.exception.ResourceNotFoundException;
 import net.javaguides.employee_backend.mapper.EmployeeMapper;
 import net.javaguides.employee_backend.model.Employee;
 import net.javaguides.employee_backend.model.dto.EmployeeDTO;
@@ -7,6 +8,7 @@ import net.javaguides.employee_backend.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -31,5 +33,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<EmployeeDTO> readEmployees() {
         List<Employee> employees = employeeRepository.findAll();
         return employeeMapper.toDtoList(employees);
+    }
+
+    @Override
+    public EmployeeDTO readEmployeeById(Long id) {
+        Optional<Employee> employee = employeeRepository.findById(id);
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+
+        if(employee.isPresent()){
+         employeeDTO = employeeMapper.toDto(employee.get());
+       }
+        return employeeDTO;
     }
 }
