@@ -4,6 +4,7 @@ package net.javaguides.employee_backend.controller;
 import net.javaguides.employee_backend.exception.ResourceNotFoundException;
 import net.javaguides.employee_backend.model.dto.EmployeeDTO;
 import net.javaguides.employee_backend.service.EmployeeService;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,4 +51,13 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeDTO);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteEmployeeById(@PathVariable Long id){
+        EmployeeDTO existingEmployeeDTO = employeeService.readEmployeeById(id);
+        if( existingEmployeeDTO == null){
+            throw new ResourceNotFoundException("Employee not exist with id :" + id);
+        }
+        employeeService.deleteEmployeeById(id);
+        return ResponseEntity.ok("Employee Succesfully deleted");
+    }
 }
