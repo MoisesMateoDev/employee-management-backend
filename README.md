@@ -7,6 +7,7 @@ Create a EmployeeRepository to interact with Database Create custom Exceptions l
 Make "Create Employee" endpoint able to record on database Microservice.
 Create List Employees endpoint implementation Microservice.
 
+Next Release -> 1.2.1-Release <br>
 Objective -> 
 *Create getEmployeeById endpoint* 
 *Create updateEmployeeById endpoint* 
