@@ -4,7 +4,6 @@ package net.javaguides.employee_backend.controller;
 import net.javaguides.employee_backend.exception.ResourceNotFoundException;
 import net.javaguides.employee_backend.model.dto.EmployeeDTO;
 import net.javaguides.employee_backend.service.EmployeeService;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,44 +19,49 @@ public class EmployeeController {
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
+
     @PostMapping
     public EmployeeDTO createEmployee(@RequestBody EmployeeDTO employeeDTO) {
         return employeeService.createEmployee(employeeDTO);
     }
 
     @GetMapping
-    public List<EmployeeDTO> readEmployees() {
-        return employeeService.readEmployees();
+    public ResponseEntity<List<EmployeeDTO>> readEmployees() {
+        List<EmployeeDTO> employees = employeeService.readEmployees();
+        if(employees == null){
+            throw new ResourceNotFoundException("There are not employees on the system");
+        }
+        return ResponseEntity.ok(employees);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<EmployeeDTO> readEmployeeById(@PathVariable Long id){
-        EmployeeDTO employeeDTO = employeeService.readEmployeeById(id);
-        if (employeeDTO == null) {
-            throw new ResourceNotFoundException("Employee not exist with id :" + id);
+    @GetMapping("/{employeeId}")
+    public ResponseEntity<EmployeeDTO> readEmployeeById(@PathVariable Long employeeId){
+        EmployeeDTO employeeDTO = employeeService.readEmployeeById(employeeId);
+        if (employeeDTO.getId() == null) {
+            throw new ResourceNotFoundException("The employee cannot be found. Employee not exist with employeeId> " + employeeId + " ");
         }
         return ResponseEntity.ok(employeeDTO);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<EmployeeDTO> updateEmployeeById(@PathVariable Long id, @RequestBody EmployeeDTO employeeDTO){
+    @PutMapping("/{employeeId}")
+    public ResponseEntity<EmployeeDTO> updateEmployeeById(@PathVariable Long employeeId, @RequestBody EmployeeDTO employeeDTO){
         EmployeeDTO employeeDTOReturned = new EmployeeDTO();
         if(employeeDTO != null){
-            employeeDTOReturned = employeeService.updateEmployeeById(id, employeeDTO);
+            employeeDTOReturned = employeeService.updateEmployeeById(employeeId, employeeDTO);
         }
         if (employeeDTOReturned.getId() == null) {
-            throw new ResourceNotFoundException("Employee not exist with id :" + id);
+            throw new ResourceNotFoundException("The employee cannot be updated. Employee not exist with employeeId> " + employeeId + " ");
         }
         return ResponseEntity.ok(employeeDTO);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteEmployeeById(@PathVariable Long id){
-        EmployeeDTO existingEmployeeDTO = employeeService.readEmployeeById(id);
-        if( existingEmployeeDTO == null){
-            throw new ResourceNotFoundException("Employee not exist with id :" + id);
+    @DeleteMapping("/{employeeId}")
+    public ResponseEntity<Void> deleteEmployeeById(@PathVariable Long employeeId){
+        EmployeeDTO existingEmployeeDTO = employeeService.readEmployeeById(employeeId);
+        if( existingEmployeeDTO.getId() == null){
+            throw new ResourceNotFoundException("The employee cannot be deleted. Employee not exist with employeeId> " + employeeId + " ");
         }
-        employeeService.deleteEmployeeById(id);
-        return ResponseEntity.ok("Employee Succesfully deleted");
+            employeeService.deleteEmployeeById(employeeId);
+        return ResponseEntity.noContent().build();
     }
 }
